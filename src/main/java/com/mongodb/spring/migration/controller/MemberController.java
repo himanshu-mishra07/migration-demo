@@ -54,7 +54,7 @@ public class MemberController {
             model.addAttribute("newMember", new Member());
         } catch (Exception e) {
             log.error("Error occurred while registering new member: {}", e.getMessage());
-            model.addAttribute("newMember", new Member());
+            model.addAttribute("newMember", newMember);
             model.addAttribute("errorMessage", e.getMessage());
         }
         return "index";
