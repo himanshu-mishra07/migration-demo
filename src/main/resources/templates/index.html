@@ -8,23 +8,13 @@
 </head>
 <body>
    <div id="container">
-        <!-- Dual branding section with logo -->
-        <div class="dualbrand">
+       <div class="dualbrand">
             <img th:src="@{/gfx/rhjb_eap_logo.png}" width="300" height="175" alt="jboss"/>
         </div>
-
-        <!-- Main content area -->
-        <div id="content">
+       <div id="content">
             <h1>Welcome to JBoss!</h1>
             <div>
                 <p>You have successfully deployed a Jakarta EE Enterprise Application.</p>
-            </div>
-            <!-- Success and error messages -->
-            <div th:if="${message}">
-                <p th:text="${message}" style="color: green;"></p>
-            </div>
-            <div th:if="${errorMessage}">
-                <p th:text="${errorMessage}" style="color: red;"></p>
             </div>
 
             <form id="reg" action="#" th:action="@{/kitchensink/index}" th:object="${newMember}" method="post">
@@ -55,52 +45,69 @@
                         <td></td>
                     </tr>
                 </table>
+
+                <p>
+                    <!-- Success and error messages -->
+                    <div th:if="${message}">
+                        <p th:text="${message}" style="color: green;"></p>
+                    </div>
+                    <div th:if="${errorMessage}">
+                        <p th:text="${errorMessage}" style="color: red;"></p>
+                    </div>
+                </p>
+
             </form>
+            <!-- Members Table -->
+            <h2>Members</h2>
+            <div th:if="${#lists.isEmpty(members)}">
+                <em>No registered members.</em>
+            </div>
+            <table th:if="${!#lists.isEmpty(members)}" class="simpletablestyle">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone #</th>
+                    <th>REST URL</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="member : ${members}">
+                    <td th:text="${member.id}"></td>
+                    <td th:text="${member.name}"></td>
+                    <td th:text="${member.email}"></td>
+                    <td th:text="${member.phoneNumber}"></td>
+                    <td>
+                        <a th:href="@{/rest/members/{id}(id=${member.id})}">
+                            /rest/members/<span th:text="${member.id}"></span>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="5">
+                        REST URL for all members:
+                        <a th:href="@{/rest/members}">/rest/members</a>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
         </div>
-        <div id="aside">
+       <div id="aside">
            <p>Learn more about Red Hat JBoss Enterprise Application Platform.</p>
            <ul>
                <li><a href="https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/">Documentation</a></li>
                <li><a href="http://www.redhat.com/en/technologies/jboss-middleware/application-platform">Product Information</a></li>
            </ul>
-        </div>
-        <!-- Members Table -->
-        <h2>Members</h2>
-        <div th:if="${#lists.isEmpty(members)}">
-            <em>No registered members.</em>
-        </div>
-        <table th:if="${!#lists.isEmpty(members)}" class="simpletablestyle">
-            <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Phone #</th>
-                <th>REST URL</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="member : ${members}">
-                <td th:text="${member.id}"></td>
-                <td th:text="${member.name}"></td>
-                <td th:text="${member.email}"></td>
-                <td th:text="${member.phoneNumber}"></td>
-                <td>
-                    <a th:href="@{/rest/members/{id}(id=${member.id})}">
-                        /rest/members/<span th:text="${member.id}"></span>
-                    </a>
-                </td>
-            </tr>
-            </tbody>
-            <tfoot>
-            <tr>
-                <td colspan="5">
-                    REST URL for all members:
-                    <a th:href="@{/rest/members}">/rest/members</a>
-                </td>
-            </tr>
-            </tfoot>
-        </table>
+       </div>
+       <div id="footer">
+           <p>
+               This project was generated from a Maven archetype from
+               JBoss.<br />
+           </p>
+       </div>
    </div>
 </body>
 </html>

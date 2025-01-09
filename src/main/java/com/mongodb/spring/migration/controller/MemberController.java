@@ -36,15 +36,9 @@ public class MemberController {
     }
 
     @PostMapping("/index")
-    public String registerNewMember(Member newMember, Model model, BindingResult result) {
+    public String registerNewMember(Member newMember, Model model) {
         List<Member> members = memberService.listAllMembers();
         model.addAttribute("members", members);
-
-        if(result.hasErrors()) {
-            log.error("Error occurred while registering new member: {}", result.getAllErrors());
-            model.addAttribute("errorMessage", "Error occurred while registering new member");
-            return "index";
-        }
 
         try {
             memberService.registerMember(newMember);
