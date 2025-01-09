@@ -30,6 +30,6 @@ public class MemberResource {
 
     @PostMapping
     public ResponseEntity<?> createMember(@RequestBody Member member) {
-        return memberService.register(member);
+        return ResponseEntity.ok(memberService.registerMember(member));
     }
 }

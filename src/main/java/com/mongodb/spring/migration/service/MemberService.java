@@ -38,30 +38,10 @@ public class MemberService {
         return memberRepo.findAll(Sort.by(Sort.Direction.ASC, "name"));
     }
 
-    public ResponseEntity<?> register(Member member) {
-        try {
-            validateMember(member);
-            log.info("Register member: {}", member.getName());
-            return ResponseEntity.ok().body(memberRepo.save(member));
-        }  catch (ConstraintViolationException ce) {
-            return createViolationResponse(ce.getConstraintViolations());
-        } catch (ValidationException e) {
-            // Handle the unique constrain violation
-            Map<String, String> responseObj = new HashMap<>();
-            responseObj.put("email", "Email taken");
-            return ResponseEntity.badRequest().body(responseObj);
-        } catch (Exception e) {
-            Map<String, String> responseObj = new HashMap<>();
-            responseObj.put("error", e.getMessage());
-            return ResponseEntity.badRequest().body(responseObj);
-        }
-    }
-
-
-    public void registerMember(Member member) {
+    public Member registerMember(Member member) {
         validateMember(member);
         log.info("Register member via UI: {}", member.getName());
-        memberRepo.save(member);
+        return memberRepo.save(member);
     }
 
 
@@ -104,15 +84,4 @@ public class MemberService {
         return memberRepo.findByEmail(email).isPresent();
     }
 
-    private ResponseEntity<?> createViolationResponse(Set<ConstraintViolation<?>> violations) {
-        log.info("Validation completed. violations found: {}", violations.size());
-
-        Map<String, String> responseObj = new HashMap<>();
-
-        for (ConstraintViolation<?> violation : violations) {
-            responseObj.put(violation.getPropertyPath().toString(), violation.getMessage());
-        }
-
-        return ResponseEntity.badRequest().body(responseObj);
-    }
 }
