@@ -35,6 +35,15 @@ public class MemberController {
         return "index";
     }
 
+    @GetMapping("/user")
+    public String getMembersAndFormForUser(Model model) {
+
+        List<Member> members = memberService.listAllMembers();
+        model.addAttribute("members", members);
+
+        return "user";
+    }
+
     @PostMapping("/index")
     public String registerNewMember(Member newMember, Model model) {
         List<Member> members = memberService.listAllMembers();

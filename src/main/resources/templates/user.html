@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member Registration</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/screen.css}" />
+</head>
+<body>
+   <div id="container">
+       <div id="content">
+            <h1>Welcome to JBoss!</h1>
+            <div>
+                <p>You have successfully deployed a Jakarta EE Enterprise Application.</p>
+            </div>
+
+            <!-- Members Table -->
+            <h2>Members</h2>
+            <div th:if="${#lists.isEmpty(members)}">
+                <em>No registered members.</em>
+            </div>
+            <table th:if="${!#lists.isEmpty(members)}" class="simpletablestyle">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone #</th>
+                    <th>REST URL</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="member : ${members}">
+                    <td th:text="${member.id}"></td>
+                    <td th:text="${member.name}"></td>
+                    <td th:text="${member.email}"></td>
+                    <td th:text="${member.phoneNumber}"></td>
+                    <td>
+                        <a th:href="@{/rest/members/{id}(id=${member.id})}">
+                            /rest/members/<span th:text="${member.id}"></span>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="5">
+                        REST URL for all members:
+                        <a th:href="@{/rest/members}">/rest/members</a>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+       <div id="footer">
+           <p>
+               This project was generated from a Maven archetype from
+               JBoss.<br />
+           </p>
+       </div>
+   </div>
+</body>
+</html>
