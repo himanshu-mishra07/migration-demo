@@ -19,6 +19,9 @@
                 <input type="password" id="password" name="password" required>
             </div>
             <button type="submit">Login</button>
+            <div th:if="${errorMessage}" style="color: red;">
+                <p th:text="${errorMessage}"></p>
+            </div>
         </form>
     </div>
 

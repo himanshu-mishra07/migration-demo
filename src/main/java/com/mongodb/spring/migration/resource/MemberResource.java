@@ -3,7 +3,9 @@ package com.mongodb.spring.migration.resource;
 import com.mongodb.spring.migration.entity.Member;
 import com.mongodb.spring.migration.service.MemberService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,8 +31,9 @@ public class MemberResource {
         return memberService.lookupMemberById(id);
     }
 
+    @Secured("ROLE_ADMIN")
     @PostMapping
-    public ResponseEntity<?> createMember(@RequestBody Member member) {
-        return ResponseEntity.ok(memberService.registerMember(member));
+    public ResponseEntity<?> createMember(@Valid @RequestBody Member member) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(memberService.registerMember(member));
     }
 }
