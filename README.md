@@ -21,6 +21,23 @@ To build and run the project, execute the following:
 After the project has started, you can access the application at `http://localhost:8080/kitchensink/index`
 
 ## REST Endpoints
-* POST /rest/members: Add a new member.
+* POST /rest/members: Add a new member. (Authorized endpoint for Admin role only)
 * GET /rest/members: Get all members.
 * GET /rest/members/{id}: Get a member by ID.
+
+## JWT Authentication
+
+This application uses JWT for authentication to create members. To obtain a JWT token, use the following endpoint:
+* POST /auth/token: Authenticate and receive a JWT token.
+
+Example Request
+
+```curl -X POST http://localhost:8080/auth/token -H "Content-Type: application/json" -d '{"username":"your_username", "password":"your_password"}'```
+
+Example Response
+
+```json
+{
+  "token": "your_jwt_token"
+}
+```
