@@ -32,7 +32,9 @@ This application uses JWT for authentication to create members. To obtain a JWT 
 
 Example Request
 
-```curl -X POST http://localhost:8080/auth/token -H "Content-Type: application/json" -d '{"username":"your_username", "password":"your_password"}'```
+```shell
+curl -X POST http://localhost:8080/auth/token -H "Content-Type: application/json" -d '{"username":"your_username", "password":"your_password"}'
+```
 
 Example Response
 
