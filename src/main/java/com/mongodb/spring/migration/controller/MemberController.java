@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,7 +31,7 @@ public class MemberController {
         List<Member> members = memberService.listAllMembers();
         model.addAttribute("members", members);
 
-        return "index";
+        return "admin";
     }
 
     @GetMapping("/user")
@@ -41,7 +40,7 @@ public class MemberController {
         List<Member> members = memberService.listAllMembers();
         model.addAttribute("members", members);
 
-        return "user";
+        return "user-page";
     }
 
     @PostMapping("/index")
@@ -60,7 +59,7 @@ public class MemberController {
             model.addAttribute("newMember", newMember);
             model.addAttribute("errorMessage", e.getMessage());
         }
-        return "index";
+        return "admin";
     }
 
 

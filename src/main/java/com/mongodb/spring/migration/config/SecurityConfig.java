@@ -1,6 +1,6 @@
 package com.mongodb.spring.migration.config;
 
-import com.mongodb.spring.migration.filter.JwtRequestFilter;
+import com.mongodb.spring.migration.config.filter.JwtRequestFilter;
 import com.mongodb.spring.migration.service.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

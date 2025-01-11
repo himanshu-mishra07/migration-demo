@@ -1,4 +1,4 @@
-package com.mongodb.spring.migration.controller;
+package com.mongodb.spring.migration.resource;
 
 import com.mongodb.spring.migration.records.AuthenticationRequest;
 import com.mongodb.spring.migration.service.AuthenticationService;
@@ -10,11 +10,11 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
-public class AuthenticationController {
+public class AuthenticationResource {
 
     private final AuthenticationService authenticationService;
 
-    public AuthenticationController(AuthenticationService authenticationService) {
+    public AuthenticationResource(AuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
     }
 

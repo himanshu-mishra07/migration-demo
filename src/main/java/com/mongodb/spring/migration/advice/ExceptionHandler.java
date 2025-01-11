@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 
@@ -57,6 +58,13 @@ public class ExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseObj);
     }
 
+    @org.springframework.web.bind.annotation.ExceptionHandler(AuthorizationDeniedException.class)
+    public ResponseEntity<?> handleAuthorizationException(AuthorizationDeniedException e) {
+        Map<String, String> responseObj = new HashMap<>();
+        responseObj.put("error", e.getMessage());
+        log.error("Authorization exception: {}", e.getMessage());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseObj);
+    }
 
     @org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleGenericException(Exception e) {

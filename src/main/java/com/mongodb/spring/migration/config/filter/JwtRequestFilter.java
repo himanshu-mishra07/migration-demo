@@ -1,4 +1,4 @@
-package com.mongodb.spring.migration.filter;
+package com.mongodb.spring.migration.config.filter;
 
 import com.mongodb.spring.migration.service.CustomUserDetailsService;
 import com.mongodb.spring.migration.util.JwtUtil;
