@@ -22,14 +22,14 @@ After the project has started, you can access the application at `http://localho
 
 **Note:** The web pages are authenticated and require a valid username and password to access. Ensure you have the correct credentials to log in.
 
-## Authentication
+### Authentication
 
 This application uses simple username and password authentication to secure the web pages. To log in, use the following credentials:
 
 * **Username:** your_username
 * **Password:** your_password
 
-**Note:** The DB has two types of users admin and use with different level of access.
+**Note:** The DB has two types of users admin and user with different level of access.
 
 
 ## REST Endpoints
@@ -37,7 +37,7 @@ This application uses simple username and password authentication to secure the 
 * GET /rest/members: Get all members.
 * GET /rest/members/{id}: Get a member by ID.
 
-## JWT Authentication
+### JWT Authentication
 
 This application uses JWT for authentication to create members via rest. To obtain a JWT token, use the following endpoint:
 * POST /auth/token: Authenticate and receive a JWT token.
