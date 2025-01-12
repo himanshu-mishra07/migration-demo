@@ -41,7 +41,7 @@ public class ExceptionHandler {
         Map<String, String> responseObj = new HashMap<>();
         responseObj.put("error", e.getMessage());
         log.error("Validation exception: {}", e.getMessage());
-        return ResponseEntity.badRequest().body(responseObj);
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(responseObj);
     }
 
     @org.springframework.web.bind.annotation.ExceptionHandler(UsernameNotFoundException.class)
