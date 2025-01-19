@@ -12,10 +12,15 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -24,7 +29,6 @@ public class SecurityConfig {
 
     private final CustomUserDetailsService customUserDetailsService;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
-    private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
     private final JwtRequestFilter jwtRequestFilter;
 
     public SecurityConfig(CustomUserDetailsService customUserDetailsService,
@@ -33,7 +37,6 @@ public class SecurityConfig {
                           JwtRequestFilter jwtRequestFilter) {
         this.customUserDetailsService = customUserDetailsService;
         this.customAuthenticationEntryPoint = customAuthenticationEntryPoint;
-        this.customAuthenticationSuccessHandler = customAuthenticationSuccessHandler;
         this.jwtRequestFilter = jwtRequestFilter;
     }
 
@@ -41,18 +44,21 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
+                .cors(cors -> cors.configurationSource(request -> {
+                    var corsConfiguration = new org.springframework.web.cors.CorsConfiguration();
+                    corsConfiguration.setAllowedOrigins(List.of("http://localhost:5173"));
+                    corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+                    corsConfiguration.setAllowedHeaders(List.of("*"));
+                    return corsConfiguration;
+                }))
                 .exceptionHandling(exceptionHandling -> exceptionHandling
                         .authenticationEntryPoint(customAuthenticationEntryPoint)
                 )
-                .authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/kitchensink/index").hasRole("ADMIN")
-                        .requestMatchers("/kitchensink/user").hasAnyRole("ADMIN", "USER")
-                        .anyRequest().permitAll()
+                .sessionManagement(sessionManagement -> sessionManagement
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
-                .formLogin(form -> form
-                        .loginPage("/login")
-                        .successHandler(customAuthenticationSuccessHandler)
-                        .permitAll()
+                .authorizeHttpRequests(requests -> requests
+                        .anyRequest().permitAll()
                 )
                 .logout(LogoutConfigurer::permitAll);
 

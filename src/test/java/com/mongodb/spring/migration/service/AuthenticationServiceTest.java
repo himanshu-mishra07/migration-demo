@@ -1,6 +1,7 @@
 package com.mongodb.spring.migration.service;
 
 import com.mongodb.spring.migration.exception.BadCredentialsException;
+import com.mongodb.spring.migration.records.AuthenticationResponse;
 import com.mongodb.spring.migration.util.JwtUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,8 +12,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -49,12 +48,12 @@ public class AuthenticationServiceTest {
         when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))
                 .thenReturn(mock(Authentication.class));
         when(customUserDetailsService.loadUserByUsername(username)).thenReturn(userDetails);
-        when(jwtUtil.generateToken(username)).thenReturn(token);
+        when(jwtUtil.generateToken(userDetails)).thenReturn(token);
 
-        Map<String, String> result = authenticationService.authenticate(username, password);
+        AuthenticationResponse result = authenticationService.authenticate(username, password);
 
         assertNotNull(result);
-        assertEquals(token, result.get("token"));
+        assertEquals(token, result.token());
     }
 
     @Test

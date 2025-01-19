@@ -1,6 +1,7 @@
 package com.mongodb.spring.migration.service;
 
 import com.mongodb.spring.migration.exception.BadCredentialsException;
+import com.mongodb.spring.migration.records.AuthenticationResponse;
 import com.mongodb.spring.migration.util.JwtUtil;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,7 +27,7 @@ public class AuthenticationService {
         this.jwtUtil = jwtUtil;
     }
 
-    public Map<String, String> authenticate(String username, String password) {
+    public AuthenticationResponse authenticate(String username, String password) {
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(username, password)
@@ -36,6 +37,7 @@ public class AuthenticationService {
         }
 
         final UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
-        return Map.of("token", jwtUtil.generateToken(userDetails.getUsername()));
+        String token = jwtUtil.generateToken(userDetails);
+        return new AuthenticationResponse(token);
     }
 }

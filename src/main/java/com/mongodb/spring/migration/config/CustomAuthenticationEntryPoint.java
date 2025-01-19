@@ -15,10 +15,8 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
         String requestURI = request.getRequestURI();
 
-        if (requestURI.startsWith("/rest")) {
+        if (requestURI.startsWith("/members")) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
-        } else {
-            response.sendRedirect("/login");
         }
     }
 }

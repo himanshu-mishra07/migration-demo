@@ -18,7 +18,7 @@ To build and run the project, execute the following:
 ```
 
 ## Access the Application
-After the project has started, you can access the application at `http://localhost:8080/kitchensink/index`
+The UI code of this application is react which is her https://github.com/himanshu-mishra07/kitchensink-ui/tree/main
 
 **Note:** The web pages are authenticated and require a valid username and password to access. Ensure you have the correct credentials to log in.
 
@@ -33,9 +33,13 @@ This application uses simple username and password authentication to secure the 
 
 
 ## REST Endpoints
-* POST /rest/members: Add a new member. (Authorized endpoint for Admin role only)
-* GET /rest/members: Get all members.
-* GET /rest/members/{id}: Get a member by ID.
+* POST /api/kitchensink/v1/members: Add a new member. (Authorized endpoint for Admin role only)
+* GET /api/kitchensink/v1/members: Get all members. (Authorized endpoint for Admin role only)
+* PUT /api/kitchensink/v1/members/{id}: Update a member by ID. (Authorized endpoint for Admin role only)
+* DELETE /api/kitchensink/v1/members/{id}: Delete a member by ID. (Authorized endpoint for Admin role only)
+* GET /api/kitchensink/v1/members/email/{email}: Get a member by email.
+* POST /api/kitchensink/v1/members/register: Register a new member without roles.
+* POST /auth/logout: Logout and blacklist the JWT token.
 
 ### JWT Authentication
 
@@ -45,7 +49,7 @@ This application uses JWT for authentication to create members via rest. To obta
 Example Request
 
 ```shell
-curl -X POST http://localhost:8080/auth/token -H "Content-Type: application/json" -d '{"username":"your_username", "password":"your_password"}'
+curl -X POST http://localhost:8080/api/kitchensink/v1/auth/token -H "Content-Type: application/json" -d '{"username":"your_username", "password":"your_password"}'
 ```
 
 Example Response
